@@ -3,6 +3,7 @@ pub struct Config<'a> {
     pub title: &'a str,
     pub width: u32,
     pub height: u32,
+    pub depth_test: bool,
 }
 
 impl<'a> Default for Config<'a> {
@@ -11,6 +12,7 @@ impl<'a> Default for Config<'a> {
             title: "SWR Window",
             width: 640,
             height: 480,
+            depth_test: false,
         }
     }
 }

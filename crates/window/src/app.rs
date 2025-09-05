@@ -1,6 +1,6 @@
 use std::{num::NonZeroU32, rc::Rc};
 
-use swr_core::ColorBuffer;
+use swr_core::Frame;
 use winit::{
     application::ApplicationHandler,
     dpi::PhysicalSize,
@@ -17,6 +17,7 @@ struct WindowState {
     window: Rc<Window>,
     context: softbuffer::Context<OwnedDisplayHandle>,
     surface_resized: bool,
+    depth_buffer: Option<Vec<f32>>,
 }
 
 impl WindowState {
@@ -30,10 +31,17 @@ impl WindowState {
                 .create_window(attributes)
                 .map_err(|error| WindowError::CreateWindow(error))?,
         );
+        let depth_buffer = if config.depth_test {
+            Some(vec![0.0; config.width as usize * config.height as usize])
+        } else {
+            None
+        };
+
         Ok(Self {
             window,
             context,
             surface_resized: false,
+            depth_buffer,
         })
     }
 
@@ -73,7 +81,12 @@ impl WindowState {
                     if let (Some(surface), true) = (surface, self.surface_resized) {
                         let mut buffer = surface.buffer_mut()?;
                         let size = self.window.inner_size();
-                        let color_buffer = ColorBuffer::new(size.width, size.height, &mut buffer);
+                        let color_buffer = Frame::new(
+                            size.width,
+                            size.height,
+                            &mut buffer,
+                            self.depth_buffer.as_deref_mut(),
+                        );
                         state.render(color_buffer);
                         buffer.present()?;
                     }

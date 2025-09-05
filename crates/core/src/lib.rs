@@ -1,6 +1,6 @@
-mod buffer;
+mod frame;
 
-pub use buffer::ColorBuffer;
+pub use frame::Frame;
 pub use glam::{FloatExt, Mat3, Mat4, Quat, Vec2, Vec3, Vec4, mat3, mat4, quat, vec2, vec3, vec4};
 
 pub const fn f32_to_u8(value: f32) -> u8 {
