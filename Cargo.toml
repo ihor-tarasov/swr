@@ -17,6 +17,7 @@ softbuffer = "0.4.6"
 
 # For swr_core
 glam = "0.30.5"
+bytemuck = "1.23.2"
 
 [dependencies]
 swr_core.workspace = true
