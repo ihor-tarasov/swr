@@ -1,0 +1,23 @@
+[workspace]
+resolver = "3"
+members = ["crates/*"]
+
+[package]
+name = "swr"
+version = "0.1.0"
+edition = "2024"
+
+[workspace.dependencies]
+swr_core.path = "crates/core"
+swr_window.path = "crates/window"
+
+# For swr_window
+winit = "0.30.12"
+softbuffer = "0.4.6"
+
+# For swr_core
+glam = "0.30.5"
+
+[dependencies]
+swr_core.workspace = true
+swr_window.workspace = true
